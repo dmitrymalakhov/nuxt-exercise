@@ -2,26 +2,44 @@
   <div class="grid">
     <div class="column"></div>
     <div class="column content">
-      <ul>
-        <li v-for="person in filteredPersons" :key="person.name">
+      <div class="card" v-for="person in filteredPersons" :key="person.name">
+        <div class="avatar-wrapper">
           <img :src="person.avatar" />
-        </li>
-      </ul>
+        </div>
+        <div class="description"></div>
+      </div>
     </div>
     <div class="column"></div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.card {
+  width: 100%;
+
+  .avatar-wrapper {
+    background: #BBBBBB;
+    max-width: 134px;
+    max-height: 126px;
+    text-align: center;
+  }
+
+  img {
+    width: 94%;
+    object-fit: contain;
+  }
+}
+
 .grid {
   padding-top: 86px;
   display: grid;
   grid-template-columns: 1fr minmax(400px, 564px) 1fr;
   grid-column-gap: 10px;
-}
-.content {
-  min-height: 100px;
-  background: #FFFFFF;
+
+  .content {
+    min-height: 100px;
+    background: #FFFFFF;
+  }
 }
 </style>
 
@@ -44,7 +62,7 @@ export default {
       persons: "persons/getPersons",
     }),
     filteredPersons() {
-      return this.persons.slice(0, 5);
+      return this.persons.slice(0, 1);
     },
   },
   methods: {},
