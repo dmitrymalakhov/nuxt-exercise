@@ -2,29 +2,11 @@
   <div class="grid">
     <div class="column"></div>
     <div class="column content">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec
-      blandit orci. Etiam tincidunt ex et posuere suscipit. Pellentesque vitae
-      orci pharetra nibh efficitur consectetur. Nulla commodo bibendum tortor,
-      eget sagittis ipsum porttitor quis. Aliquam sollicitudin posuere elit,
-      vestibulum sagittis ex ultrices non. Quisque vulputate laoreet nibh, ut
-      efficitur dolor pharetra et. Vivamus id dignissim sapien, at pulvinar
-      eros. Quisque aliquam porta est, quis bibendum elit faucibus iaculis. Sed
-      ut vulputate ipsum. Vivamus nec luctus nulla, in tincidunt purus. Integer
-      eget justo odio. Duis auctor, elit a gravida pulvinar, enim erat
-      vestibulum mi, vel blandit leo felis quis lectus. Phasellus non ultrices
-      nulla. Phasellus accumsan lobortis justo, dignissim convallis ante
-      malesuada ut. Vestibulum aliquam neque at maximus maximus. Sed semper enim
-      ut magna lacinia blandit. Nam gravida quam leo, vel lacinia ligula
-      bibendum at. Vestibulum at augue nec quam sagittis scelerisque. Nullam
-      posuere nulla a turpis pellentesque interdum et id leo. Pellentesque urna
-      tortor, dignissim et euismod sed, gravida mollis dolor. Nam quis accumsan
-      eros. Phasellus ac pharetra velit, at bibendum enim. Nulla efficitur vitae
-      justo at pulvinar. In et dui a augue tincidunt tincidunt sed sed ante.
-      Morbi et libero lectus. Suspendisse potenti. Vivamus massa magna,
-      facilisis sed sollicitudin maximus, placerat eu nibh. Mauris ac enim
-      mollis, elementum nisi nec, viverra augue. Proin erat neque, maximus et
-      leo eget, pellentesque iaculis elit. Aenean faucibus nulla ac lectus
-      dictum facilisis. Nam consequat tortor sit amet mollis tempor.
+      <ul>
+        <li v-for="person in filteredPersons" :key="person.name">
+          <img :src="person.avatar" />
+        </li>
+      </ul>
     </div>
     <div class="column"></div>
   </div>
@@ -38,6 +20,34 @@
   grid-column-gap: 10px;
 }
 .content {
+  min-height: 100px;
   background: #FFFFFF;
 }
 </style>
+
+<script>
+import { mapGetters } from "vuex";
+import { MutationTypes as MutationTypesPersons } from "../store/persons";
+
+export default {
+  async fetch({ store }) {
+    const persons = await fetch(
+      "https://gist.githubusercontent.com/allaud/093aa499998b7843bb10b44ea6ea02dc/raw/c400744999bf4b308f67807729a6635ced0c8644/users.json"
+    ).then((res) => res.json());
+
+    store.commit(`persons/${MutationTypesPersons.UPDATE_PERSONS}`, persons);
+  },
+  computed: {
+    ...mapGetters({
+      isFetching: "persons/getFetchingStatus",
+      isError: "persons/getFetchingError",
+      persons: "persons/getPersons",
+    }),
+    filteredPersons() {
+      return this.persons.slice(0, 5);
+    },
+  },
+  methods: {},
+  components: {},
+};
+</script>
