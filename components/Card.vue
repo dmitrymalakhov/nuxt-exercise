@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :key="name">
+  <div class="card" :key="selected">
     <div class="avatar-wrapper">
       <img :src="avatar" />
     </div>
@@ -13,7 +13,10 @@
         </div>
         <div class="address">{{ address }}, {{ city }}</div>
       </div>
-      <button @click="onSelect">MARK AS SIUTABLE</button>
+      <button @click="handleSelect">
+        <span v-if="selected">SKIP SELECTION</span>
+        <span v-else>MARK AS SIUTABLE</span>
+      </button>
       <div class="email">{{ email }}</div>
     </div>
   </div>
@@ -23,6 +26,9 @@
 .card {
   width: 100%;
   display: flex;
+  background: #FAFAFA;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
 
   .avatar-wrapper {
     background: #BBBBBB;
@@ -43,7 +49,7 @@
     > button {
       margin: 15px 0 0 32px;
       appearance: none;
-      background-color: #FFFFFF;
+      background: #FAFAFA;
       border-width: 0;
       box-sizing: border-box;
       color: #000000;
@@ -60,10 +66,7 @@
       font-weight: 500;
       font-size: 14px;
       line-height: 16px;
-      /* identical to box height */
-
       text-align: center;
-
       color: #009688;
     }
     .personal-info {
@@ -106,6 +109,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      selected: false,
+    };
+  },
   props: {
     name: String,
     avatar: String,
@@ -114,6 +122,12 @@ export default {
     city: String,
     email: String,
     onSelect: () => {},
+  },
+  methods: {
+    handleSelect() {
+      console.log(this);
+      this.selected = !this.selected;
+    },
   },
 };
 </script>

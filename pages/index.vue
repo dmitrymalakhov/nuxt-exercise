@@ -14,7 +14,6 @@
           :address="person.address"
           :city="person.city"
           :email="person.email"
-          :onSelect="onSelect"
         />
       </div>
     </div>
