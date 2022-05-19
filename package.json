@@ -12,9 +12,9 @@
     "post-update": "yarn upgrade --latest"
   },
   "dependencies": {
-    "node-sass": "7.0.1",
-    "nuxt": "^2.15.0",
-    "sass": "1.51.0",
+    "node-sass": "^7.0.1",
+    "nuxt": "^2.15.8",
+    "sass": "^1.51.0",
     "sass-loader": "10.2.1"
   }
 }

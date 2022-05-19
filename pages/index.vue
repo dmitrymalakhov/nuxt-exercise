@@ -2,11 +2,20 @@
   <div class="grid">
     <div class="column"></div>
     <div class="column content">
-      <div class="card" v-for="person in filteredPersons" :key="person.name">
-        <div class="avatar-wrapper">
-          <img :src="person.avatar" />
-        </div>
-        <div class="description"></div>
+      <div
+        class="card-wrapper"
+        v-for="person in filteredPersons"
+        :key="person.name"
+      >
+        <Card
+          :avatar="person.avatar"
+          :name="person.name"
+          :title="person.title"
+          :address="person.address"
+          :city="person.city"
+          :email="person.email"
+          :onSelect="onSelect"
+        />
       </div>
     </div>
     <div class="column"></div>
@@ -14,20 +23,12 @@
 </template>
 
 <style scoped lang="scss">
-.card {
-  width: 100%;
-
-  .avatar-wrapper {
-    background: #BBBBBB;
-    max-width: 134px;
-    max-height: 126px;
-    text-align: center;
+.card-wrapper {
+  &:last-child {
+    padding-bottom: 20px;
   }
 
-  img {
-    width: 94%;
-    object-fit: contain;
-  }
+  padding: 20px 12px 0px 12px;
 }
 
 .grid {
@@ -46,6 +47,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { MutationTypes as MutationTypesPersons } from "../store/persons";
+import Card from "../components/Card";
 
 export default {
   async fetch({ store }) {
@@ -62,10 +64,16 @@ export default {
       persons: "persons/getPersons",
     }),
     filteredPersons() {
-      return this.persons.slice(0, 1);
+      return this.persons.slice(0, 2);
     },
   },
-  methods: {},
-  components: {},
+  methods: {
+    onSelect(id) {
+      console.log(id);
+    },
+  },
+  components: {
+    Card,
+  },
 };
 </script>
