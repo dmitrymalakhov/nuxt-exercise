@@ -2,19 +2,23 @@
   <div class="grid">
     <div class="column"></div>
     <div class="column content">
-      <div
-        class="card-wrapper"
-        v-for="person in filteredPersons"
-        :key="person.name"
-      >
-        <Card
-          :avatar="person.avatar"
-          :name="person.name"
-          :title="person.title"
-          :address="person.address"
-          :city="person.city"
-          :email="person.email"
-        />
+      <input v-model="querySearch" />
+      <div :key="querySearch">
+        <div
+          class="card-wrapper"
+          v-for="person in getPersons"
+          :key="person.name"
+        >
+          <Card
+            :avatar="person.avatar"
+            :name="person.name"
+            :title="person.title"
+            :address="person.address"
+            :city="person.city"
+            :email="person.email"
+            :highlight="getHighlights(person.name)"
+          />
+        </div>
       </div>
     </div>
     <div class="column"></div>
@@ -56,19 +60,40 @@ export default {
 
     store.commit(`persons/${MutationTypesPersons.UPDATE_PERSONS}`, persons);
   },
+  data() {
+    return {
+      querySearch: "",
+    };
+  },
   computed: {
     ...mapGetters({
       isFetching: "persons/getFetchingStatus",
       isError: "persons/getFetchingError",
       persons: "persons/getPersons",
     }),
+    getPersons() {
+      return this.filteredPersons.persons;
+    },
     filteredPersons() {
-      return this.persons.slice(0, 2);
+      const regex = new RegExp(this.querySearch, "gi");
+      const highlights = {};
+
+      const persons = this.persons
+        .filter((item, index) => {
+          if (!this.querySearch) return true;
+
+          const matched = regex.exec(item.name);
+          if (matched) highlights[item.name] = [matched[0], matched.index];
+          return matched;
+        })
+        .slice(0, 2);
+
+      return { persons, highlights };
     },
   },
   methods: {
-    onSelect(id) {
-      console.log(id);
+    getHighlights(index) {
+      return this.filteredPersons.highlights[index];
     },
   },
   components: {

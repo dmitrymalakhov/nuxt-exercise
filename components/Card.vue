@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :key="selected">
+  <div :class="cardClasses" :key="selected">
     <div class="avatar-wrapper">
       <img :src="avatar" />
     </div>
@@ -26,13 +26,19 @@
 .card {
   width: 100%;
   display: flex;
+  overflow: hidden;
   background: #FAFAFA;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.24);
   border-radius: 3px;
 
+  &.selected {
+    margin: -1px;
+    border: 1px solid #4765FF;
+  }
+
   .avatar-wrapper {
     background: #BBBBBB;
-    max-width: 134px;
+    width: 134px;
     max-height: 126px;
     text-align: center;
 
@@ -114,6 +120,11 @@ export default {
       selected: false,
     };
   },
+  computed: {
+    cardClasses() {
+      return `card${this.selected ? " selected" : ""}`;
+    },
+  },
   props: {
     name: String,
     avatar: String,
@@ -121,11 +132,10 @@ export default {
     address: String,
     city: String,
     email: String,
-    onSelect: () => {},
+    highlight: Array,
   },
   methods: {
     handleSelect() {
-      console.log(this);
       this.selected = !this.selected;
     },
   },
