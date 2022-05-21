@@ -9,7 +9,7 @@
 export default {
   props: {
     value: String,
-    highlight: Array,
+    highlight: Array || null,
   },
 
   computed: {

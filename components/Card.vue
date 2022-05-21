@@ -154,7 +154,7 @@ export default {
       this.$emit("set-selection", this.name, this.cardSelected);
     },
     getHighlightField(fieldName) {
-      return this.highlight ? this.highlight[fieldName] : "";
+      return this.highlight ? this.highlight[fieldName] : null;
     },
   },
   components: {
