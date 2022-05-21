@@ -1,23 +1,39 @@
 <template>
-  <div :class="cardClasses" :key="selected">
+  <div v-bind:class="{ card: true, selected: cardSelected }">
     <div class="avatar-wrapper">
       <img :src="avatar" />
     </div>
     <div class="description">
       <div class="personal-info">
         <div class="name">
-          {{ name }}
+          <HighlightedText
+            :value="name"
+            :highlight="getHighlightField('name')"
+          />
         </div>
         <div class="title">
-          {{ title }}
+          <HighlightedText
+            :value="title"
+            :highlight="getHighlightField('title')"
+          />
         </div>
-        <div class="address">{{ address }}, {{ city }}</div>
+        <div class="address">
+          <HighlightedText
+            :value="`${address}, ${city}`"
+            :highlight="getHighlightField('address')"
+          />
+        </div>
       </div>
       <button @click="handleSelect">
-        <span v-if="selected">SKIP SELECTION</span>
+        <span v-if="cardSelected">SKIP SELECTION</span>
         <span v-else>MARK AS SIUTABLE</span>
       </button>
-      <div class="email">{{ email }}</div>
+      <div class="email">
+        <HighlightedText
+          :value="email"
+          :highlight="getHighlightField('email')"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +55,7 @@
   .avatar-wrapper {
     background: #BBBBBB;
     width: 134px;
-    max-height: 126px;
+    height: 126px;
     text-align: center;
 
     img {
@@ -114,16 +130,13 @@
 </style>
 
 <script>
+import HighlightedText from "./HighlightedText";
+
 export default {
   data() {
     return {
-      selected: false,
+      cardSelected: this.selected,
     };
-  },
-  computed: {
-    cardClasses() {
-      return `card${this.selected ? " selected" : ""}`;
-    },
   },
   props: {
     name: String,
@@ -132,12 +145,20 @@ export default {
     address: String,
     city: String,
     email: String,
-    highlight: Array,
+    highlight: Object,
+    selected: Boolean,
   },
   methods: {
     handleSelect() {
-      this.selected = !this.selected;
+      this.cardSelected = !this.cardSelected;
+      this.$emit("set-selection", this.name, this.cardSelected);
     },
+    getHighlightField(fieldName) {
+      return this.highlight ? this.highlight[fieldName] : "";
+    },
+  },
+  components: {
+    HighlightedText,
   },
 };
 </script>

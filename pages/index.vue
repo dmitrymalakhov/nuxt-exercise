@@ -16,7 +16,9 @@
             :address="person.address"
             :city="person.city"
             :email="person.email"
+            :selected="getSelection(person.name)"
             :highlight="getHighlights(person.name)"
+            @set-selection="setSelection"
           />
         </div>
       </div>
@@ -63,6 +65,7 @@ export default {
   data() {
     return {
       querySearch: "",
+      selectedItems: {},
     };
   },
   computed: {
@@ -82,9 +85,23 @@ export default {
         .filter((item, index) => {
           if (!this.querySearch) return true;
 
-          const matched = regex.exec(item.name);
-          if (matched) highlights[item.name] = [matched[0], matched.index];
-          return matched;
+          const matchedName = regex.exec(item.name);
+          const matchedTitle = regex.exec(item.title);
+          const matchedEmail = regex.exec(item.email);
+          const matchedAddress = regex.exec(`${item.address}, ${item.city}`);
+
+          const isMatched =
+            matchedName || matchedTitle || matchedEmail || matchedAddress;
+
+          if (isMatched)
+            highlights[item.name] = {
+              name: matchedName,
+              title: matchedTitle,
+              email: matchedEmail,
+              address: matchedAddress,
+            };
+
+          return isMatched;
         })
         .slice(0, 2);
 
@@ -94,6 +111,12 @@ export default {
   methods: {
     getHighlights(index) {
       return this.filteredPersons.highlights[index];
+    },
+    setSelection(index, state) {
+      this.selectedItems[index] = state;
+    },
+    getSelection(index) {
+      return this.selectedItems[index] ? this.selectedItems[index] : false;
     },
   },
   components: {
