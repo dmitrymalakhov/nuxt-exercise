@@ -2,14 +2,21 @@
   <div class="grid">
     <div class="column"></div>
     <div class="column content">
-      <input v-model="querySearch" />
+      <div class="search-panel">
+        <div class="icon-wrapper">
+          <v-icon name="search" color="#BBBBBB" scale="1.5"></v-icon>
+        </div>
+
+        <input v-model="querySearch" />
+      </div>
+
       <div :key="querySearch">
         <div
           class="card-wrapper"
           v-for="person in getPersons"
           :key="person.name"
         >
-          <Card
+          <v-card
             :avatar="person.avatar"
             :name="person.name"
             :title="person.title"
@@ -36,6 +43,33 @@
   padding: 20px 12px 0px 12px;
 }
 
+.search-panel {
+  background: #FAFAFA;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 2px;
+  margin: 20px 12px 0 12px;
+  display: flex;
+
+  .icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  > input {
+    flex-grow: 1;
+    padding: 12px 0 7px 0px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.75);
+  }
+}
+
 .grid {
   padding-top: 86px;
   display: grid;
@@ -44,6 +78,7 @@
 
   .content {
     min-height: 100px;
+    max-height: 643px;
     background: #FFFFFF;
   }
 }
@@ -51,8 +86,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Icon from "vue-awesome/components/Icon";
 import { MutationTypes as MutationTypesPersons } from "../store/persons";
 import Card from "../components/Card";
+import "vue-awesome/icons/search";
 
 export default {
   async fetch({ store }) {
@@ -120,7 +157,8 @@ export default {
     },
   },
   components: {
-    Card,
+    "v-card": Card,
+    "v-icon": Icon,
   },
 };
 </script>

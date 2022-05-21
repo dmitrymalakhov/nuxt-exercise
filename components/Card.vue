@@ -6,19 +6,19 @@
     <div class="description">
       <div class="personal-info">
         <div class="name">
-          <HighlightedText
+          <v-highlight-text
             :value="name"
             :highlight="getHighlightField('name')"
           />
         </div>
         <div class="title">
-          <HighlightedText
+          <v-highlight-text
             :value="title"
             :highlight="getHighlightField('title')"
           />
         </div>
         <div class="address">
-          <HighlightedText
+          <v-highlight-text
             :value="`${address}, ${city}`"
             :highlight="getHighlightField('address')"
           />
@@ -29,7 +29,7 @@
         <span v-else>MARK AS SIUTABLE</span>
       </button>
       <div class="email">
-        <HighlightedText
+        <v-highlight-text
           :value="email"
           :highlight="getHighlightField('email')"
         />
@@ -158,7 +158,7 @@ export default {
     },
   },
   components: {
-    HighlightedText,
+    "v-highlight-text": HighlightedText,
   },
 };
 </script>
