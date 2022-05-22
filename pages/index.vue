@@ -147,6 +147,14 @@ export default {
       limitItems: 10,
     };
   },
+  created() {
+    const regex = /\/search\/(.*)/gi;
+    const queryMatched = regex.exec(this.$route.path);
+
+    if (queryMatched && queryMatched[1]) {
+      this.querySearch = queryMatched[1];
+    }
+  },
   mounted() {
     this.handleDebouncedScroll = debounce(this.handleScroll, 100);
     this.$refs.content.addEventListener("scroll", this.handleDebouncedScroll);
@@ -219,6 +227,8 @@ export default {
   watch: {
     querySearch() {
       this.limitItems = 10;
+
+      window.history.replaceState({}, null, `/search/${this.querySearch}`);
     },
   },
   components: {

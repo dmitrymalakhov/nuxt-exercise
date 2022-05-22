@@ -12,6 +12,15 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: "search",
+        path: "/search/*",
+        component: resolve(__dirname, "pages/index.vue")
+      });
+    }
+  },
   components: true,
   modules: [],
   css: ["~/assets/css/main"],
