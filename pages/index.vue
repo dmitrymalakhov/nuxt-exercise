@@ -159,7 +159,6 @@ export default {
     this.handleDebouncedScroll = debounce(this.handleScroll, 100);
     this.$refs.content.addEventListener("scroll", this.handleDebouncedScroll);
   },
-
   beforeDestroy() {
     this.$refs.content.removeEventListener(
       "scroll",
@@ -227,7 +226,6 @@ export default {
   watch: {
     querySearch() {
       this.limitItems = 10;
-
       window.history.replaceState({}, null, `/search/${this.querySearch}`);
     },
   },

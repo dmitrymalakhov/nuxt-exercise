@@ -11,12 +11,6 @@ export default {
     value: String,
     highlight: Array || null,
   },
-
-  computed: {
-    getText() {
-      return this.value;
-    },
-  },
   render(h) {
     const items = this.value.split(this.highlight);
     const newItems = [items[0]];
