@@ -1,7 +1,7 @@
 <template>
   <div v-bind:class="{ card: true, selected: cardSelected }">
     <div class="avatar-wrapper">
-      <img :src="avatar" />
+      <img :src="avatar.match(/(.*)\?/g)[0]" />
     </div>
     <div class="description">
       <div class="personal-info">

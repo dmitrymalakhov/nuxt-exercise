@@ -175,7 +175,7 @@ export default {
       return this.filteredPersons.persons;
     },
     filteredPersons() {
-      const regex = new RegExp(this.querySearch, "gi");
+      const regex = new RegExp(this.querySearch.replace(".", "\\."), "gi");
       const highlights = {};
 
       const persons = this.persons
